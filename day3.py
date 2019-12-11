@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-f_obj = open('day3.txt')
+f_obj = open('day3_test.txt')
 
 wires = []
 for line in f_obj:
