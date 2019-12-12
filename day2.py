@@ -1,39 +1,59 @@
 from math import *
 
-opcode = []
-f_obj = open('day2.txt')
-for line in f_obj:
-    split = line.split(',')
-    for i in range(0, len(split), 4):
-        opcode.append((split[i:i+4]))
 
-f_obj.close()
-for i in range(len(opcode)):
-    #find the index of position 1 in our data strcture
-    pos1 = int(opcode[i][1])
-    ind11 = floor(pos1 / 4)
-    ind12 = pos1 % 4
-    #find the index of position 2 in our data structure
-    pos2 = int(opcode[i][2])
-    ind21 = floor(pos2 / 4)
-    ind22 = pos2 % 4
-    #find the index of position 3 in our data structure
-    pos3 = int(opcode[i][3])
-    ind31 = floor(pos3 / 4)
-    ind32 = pos3 % 4
-    #do operations.
-    if opcode[i][0] == '1':
-        sum = int(opcode[ind11][ind12]) + int(opcode[ind21][ind22])
-        opcode[ind31][ind32] = sum
-    if opcode[i][0] == '2':
-        multiple = int(opcode[ind11][ind12]) * int(opcode[ind21][ind22])
-        opcode[ind31][ind32] = multiple
-    if opcode[i][0] == '99':
-        print('hit 99 program is halting')
-        break
+class IntCodeComputer():
+    def __init__(self, filename):
+        self.filename = filename
+        
+    def read_file(self):
+        incode = []
+        f_obj = open(self.filename)
+        for line in f_obj:
+            split = line.split(',')
+            for i in range(0, len(split)):
+                incode.append((int(split[i])))
+        f_obj.close()
+        return incode
+                
+    def specific_check(self, num1, num2):
+        testcode = self.read_file()
+        testcode[1] = num1
+        testcode[2] = num2
+        opcode_ans = self.opcode_check(testcode)
+        ans = opcode_ans[0]
+        print(ans, 'part 1 answer')
 
-f_obj = open('day2_output.txt', 'w')
+    def search_for_vals(self):
+        for i in range(99):
+            for j in range(99):
+                testcode = self.read_file()
+                testcode[1] = i
+                testcode[2] = j
+                ans_opcode = self.opcode_check(testcode)
+                print(ans_opcode[0])
+                if ans_opcode[0] == 19690720:
+                    print(100 * i + j, 'answer to part 2')
+                    return
+    def opcode_check(self,opcode):
+        for i in range(0, len(opcode), 4):
+            pos1 = opcode[i + 1]
+            pos2 = opcode[i + 2]
+            pos3 = opcode[i + 3]
+            if opcode[i] == 1:
+                sum = opcode[pos1] + opcode[pos2]
+                opcode[pos3] = sum
+            elif opcode[i] == 2:
+                multiple = opcode[pos1] * opcode[pos2]
+                opcode[pos3] = multiple
+            elif opcode[i] == 99:
+                print('F')
+                break
 
-for i in range(len(opcode)):
-    for j in range(len(opcode[i])):
-        f_obj.write(str(opcode[i][j]) + ',')
+        return opcode
+
+
+
+
+c = IntCodeComputer('day2.txt')
+c.specific_check(12, 2)
+c.search_for_vals()
