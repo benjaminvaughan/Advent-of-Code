@@ -15,14 +15,14 @@ class IntCodeComputer():
         f_obj.close()
         return incode
                 
-    def specific_check(self, num1=None, num2=None, id=1):
+    def specific_check(self, num1=None, num2=None, id=1, part=None):
         testcode = self.read_file()
         if num1 is not None and num2 is not None:
             testcode[1] = num1
             testcode[2] = num2
         opcode_ans = self.run_opcode(testcode, id)
         ans = opcode_ans[0]
-        print(ans, 'part 1 answer')
+        print('part %s answer : %s' % (part, ans))
 
     def search_for_vals(self):
         for i in range(99):
@@ -155,7 +155,10 @@ class IntCodeComputer():
 
 
 c = IntCodeComputer('day5.txt')
-c.specific_check(id=5)
+
+c.specific_check(part=1)
+
+c.specific_check(id=5, part=2)
 #c.search_for_vals()
 
 
