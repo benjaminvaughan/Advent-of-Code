@@ -1,0 +1,10 @@
+from math import *
+import numpy as np
+
+pasti = 284639
+
+print(pasti[0])
+'''
+for i in range(284639, 748759):
+    pass
+'''
