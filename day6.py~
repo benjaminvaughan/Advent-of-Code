@@ -1,0 +1,24 @@
+from math import *
+import numpy as np
+
+bodies = []
+
+f = open('day6.txt')
+
+main = []
+side = []
+
+d = {}
+
+for line in f:
+    line = line.replace('\n', '')
+    i, o = line.split(')')
+    d[o] = i
+
+sum = 0
+
+while o != 'COM':
+    o = d[o]
+    sum += 1
+
+print(sum)
